@@ -8,9 +8,9 @@ const RPC_URL: &str = "http://127.0.0.1:18443";
 const RPC_USER: &str = "alice";
 const RPC_PASS: &str = "password";
 
-fn main() -> bitcoincore_rpc::Result<()> { 
+fn main() -> bitcoincore_rpc::Result<()> {
     // Connect to Bitcoin Core RPC
-        let rpc = Client::new(
+    let rpc = Client::new(
         RPC_URL,
         Auth::UserPass(RPC_USER.to_owned(), RPC_PASS.to_owned()),
     )?;
@@ -97,10 +97,9 @@ fn main() -> bitcoincore_rpc::Result<()> {
     let prev_decoded = prev_tx_info.transaction()?;
     let prev_txout = &prev_decoded.output[prevout.vout as usize];
 
-    let miner_input_addr =
-        Address::from_script(&prev_txout.script_pubkey, Network::Regtest)
-            .expect("valid address from script")
-            .to_string();
+    let miner_input_addr = Address::from_script(&prev_txout.script_pubkey, Network::Regtest)
+        .expect("valid address from script")
+        .to_string();
     let miner_input_amount = prev_txout.value.to_btc();
 
     // The transaction has two outputs: one for Trader (~20 BTC) and one for Miner (change).
@@ -110,15 +109,13 @@ fn main() -> bitcoincore_rpc::Result<()> {
         (&decoded.output[1], &decoded.output[0])
     };
 
-    let trader_out_addr =
-        Address::from_script(&trader_out.script_pubkey, Network::Regtest)
-            .expect("valid address from script")
-            .to_string();
+    let trader_out_addr = Address::from_script(&trader_out.script_pubkey, Network::Regtest)
+        .expect("valid address from script")
+        .to_string();
     let trader_out_amount = trader_out.value.to_btc();
-    let miner_change_addr =
-        Address::from_script(&change_out.script_pubkey, Network::Regtest)
-            .expect("valid address from script")
-            .to_string();
+    let miner_change_addr = Address::from_script(&change_out.script_pubkey, Network::Regtest)
+        .expect("valid address from script")
+        .to_string();
     let miner_change_amount = change_out.value.to_btc();
 
     // Write output to ../out.txt in the required format
